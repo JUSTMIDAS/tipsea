@@ -1,0 +1,1962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TipSea Point — Private Luxury Estate | Hope Town, Bahamas</title>
+  <meta name="description" content="An exclusive private estate on Elbow Cay, Abaco. Unrivaled sunsets, pristine beaches, and curated seclusion in the heart of the Bahamas." />
+  <meta property="og:title" content="TipSea Point — Private Luxury Estate, Bahamas" />
+  <meta property="og:description" content="Where the Atlantic meets paradise. A private sanctuary in Hope Town, Elbow Cay." />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/css/style.css" />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/cdn@4.x/dist/index.global.js"></script>
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/CustomEase.min.js"></script>
+
+  <style>
+    :root {
+      --ocean-midnight: #0A1628;
+      --deep-water: #1B4F72;
+      --cyan: #00B4D8;
+      --gold: #F0C040;
+      --sand: #F8F4EE;
+      --teal: #2C7873;
+      --glass: rgba(10,22,40,0.72);
+      --glass-light: rgba(248,244,238,0.08);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--ocean-midnight);
+      color: var(--sand);
+      overflow-x: hidden;
+    }
+
+    /* ─── TYPOGRAPHY ─── */
+    .font-display { font-family: 'Cormorant Garamond', Georgia, serif; }
+    .font-mono { font-family: 'Space Mono', monospace; }
+
+    /* ─── NAV ─── */
+    #nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      padding: 1.5rem 3rem;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: all 0.5s ease;
+    }
+    #nav.scrolled {
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0,180,216,0.15);
+      padding: 1rem 3rem;
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      color: var(--sand);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--cyan); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(248,244,238,0.75);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--cyan); }
+    .nav-cta {
+      background: transparent;
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+      padding: 0.6rem 1.5rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+    }
+    .nav-cta:hover { background: var(--cyan); color: var(--ocean-midnight); }
+
+    /* Hamburger */
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { width: 26px; height: 1.5px; background: var(--sand); transition: all 0.3s; display: block; }
+    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    .mobile-menu {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--ocean-midnight);
+      z-index: 999;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 2.5rem;
+      transform: translateX(100%);
+      transition: transform 0.5s cubic-bezier(0.77,0,0.175,1);
+    }
+    .mobile-menu.open { transform: translateX(0); }
+    .mobile-menu a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      color: var(--sand);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── HERO ─── */
+    #hero {
+      position: relative;
+      height: 100vh;
+      min-height: 700px;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1548574505-5e239809ee19?w=1920&q=90');
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.08);
+      will-change: transform;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(10,22,40,0.3) 0%,
+        rgba(10,22,40,0.15) 40%,
+        rgba(10,22,40,0.65) 80%,
+        rgba(10,22,40,1) 100%
+      );
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      text-align: center;
+      padding: 0 1.5rem;
+      max-width: 900px;
+    }
+    .hero-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--sand);
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    .hero-title em { font-style: italic; color: var(--cyan); }
+    .hero-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 300;
+      color: rgba(248,244,238,0.75);
+      max-width: 520px;
+      margin: 1.5rem auto 0;
+      line-height: 1.7;
+      opacity: 0;
+    }
+    .hero-actions {
+      margin-top: 2.5rem;
+      display: flex; gap: 1rem;
+      justify-content: center; flex-wrap: wrap;
+      opacity: 0;
+    }
+    .btn-primary {
+      background: var(--cyan);
+      color: var(--ocean-midnight);
+      border: none;
+      padding: 1rem 2.5rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.35s;
+      font-family: 'DM Sans', sans-serif;
+      display: inline-block;
+      text-decoration: none;
+    }
+    .btn-primary:hover { background: #00d4f5; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,180,216,0.4); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--sand);
+      border: 1px solid rgba(248,244,238,0.4);
+      padding: 1rem 2.5rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.35s;
+      font-family: 'DM Sans', sans-serif;
+      display: inline-block;
+      text-decoration: none;
+    }
+    .btn-ghost:hover { border-color: var(--cyan); color: var(--cyan); }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      opacity: 0; z-index: 2;
+    }
+    .scroll-hint span {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: rgba(248,244,238,0.5);
+      text-transform: uppercase;
+    }
+    .scroll-line {
+      width: 1px; height: 50px;
+      background: linear-gradient(to bottom, rgba(0,180,216,0.8), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(0.8); }
+      50% { opacity: 1; transform: scaleY(1); }
+    }
+
+    /* ─── TIDE DIVIDER ─── */
+    .tide-divider {
+      width: 100%;
+      overflow: hidden;
+      line-height: 0;
+      margin: 0;
+    }
+    .tide-divider svg { display: block; width: 100%; }
+
+    /* ─── SECTIONS ─── */
+    .section { padding: 7rem 3rem; }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 400;
+      line-height: 1.15;
+      color: var(--sand);
+    }
+    .section-title em { font-style: italic; }
+    .section-body {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: rgba(248,244,238,0.65);
+      max-width: 560px;
+    }
+
+    /* ─── INTRO / STORY ─── */
+    #story { background: var(--ocean-midnight); }
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .story-image-wrap {
+      position: relative;
+    }
+    .story-img {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+    }
+    .story-img-accent {
+      position: absolute;
+      bottom: -2rem; right: -2rem;
+      width: 55%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border: 4px solid var(--ocean-midnight);
+    }
+    .story-stat {
+      position: absolute;
+      top: 2rem; left: -2rem;
+      background: var(--cyan);
+      color: var(--ocean-midnight);
+      padding: 1.5rem;
+    }
+    .story-stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 600;
+      line-height: 1;
+    }
+    .story-stat-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 0.25rem;
+    }
+
+    /* ─── FEATURES GRID ─── */
+    #features { background: #08101f; }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border: 1px solid rgba(0,180,216,0.15);
+    }
+    .feature-card {
+      padding: 3rem 2.5rem;
+      border-right: 1px solid rgba(0,180,216,0.15);
+      border-bottom: 1px solid rgba(0,180,216,0.15);
+      transition: background 0.4s;
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card:nth-child(3n) { border-right: none; }
+    .feature-card:nth-last-child(-n+3) { border-bottom: none; }
+    .feature-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,180,216,0.06), transparent);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .feature-card:hover::before { opacity: 1; }
+    .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 1.25rem;
+      display: block;
+    }
+    .feature-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: var(--sand);
+      margin-bottom: 0.75rem;
+    }
+    .feature-text {
+      font-size: 0.875rem;
+      line-height: 1.75;
+      color: rgba(248,244,238,0.5);
+    }
+
+    /* ─── GALLERY ─── */
+    #gallery { background: var(--ocean-midnight); padding: 7rem 0; }
+    .gallery-header { padding: 0 3rem; margin-bottom: 3rem; }
+    .gallery-scroll {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      padding: 0 3rem 1rem;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .gallery-scroll::-webkit-scrollbar { display: none; }
+    .gallery-item {
+      flex: 0 0 auto;
+      scroll-snap-align: start;
+      overflow: hidden;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+      display: block;
+    }
+    .gallery-item:hover img { transform: scale(1.04); }
+    .gallery-item:nth-child(1) { width: 560px; height: 380px; }
+    .gallery-item:nth-child(2) { width: 380px; height: 380px; }
+    .gallery-item:nth-child(3) { width: 480px; height: 380px; }
+    .gallery-item:nth-child(4) { width: 340px; height: 380px; }
+    .gallery-item:nth-child(5) { width: 520px; height: 380px; }
+
+    /* ─── ACCOMMODATION ─── */
+    #accommodation { background: #08101f; }
+    .rooms-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 4rem;
+    }
+    .room-card {
+      position: relative;
+      overflow: hidden;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(0,180,216,0.1);
+      transition: border-color 0.4s, transform 0.4s;
+    }
+    .room-card:hover { border-color: rgba(0,180,216,0.35); transform: translateY(-4px); }
+    .room-card.featured { grid-column: span 2; display: grid; grid-template-columns: 1.2fr 1fr; }
+    .room-img {
+      width: 100%;
+      aspect-ratio: 16/10;
+      object-fit: cover;
+    }
+    .room-card.featured .room-img { width: 100%; height: 100%; aspect-ratio: auto; }
+    .room-body { padding: 2rem 2.5rem; }
+    .room-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 0.75rem;
+    }
+    .room-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 400;
+      color: var(--sand);
+      margin-bottom: 0.75rem;
+    }
+    .room-desc {
+      font-size: 0.875rem;
+      line-height: 1.75;
+      color: rgba(248,244,238,0.55);
+      margin-bottom: 1.5rem;
+    }
+    .room-amenities {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .amenity-tag {
+      font-size: 0.7rem;
+      padding: 0.3rem 0.75rem;
+      border: 1px solid rgba(0,180,216,0.25);
+      color: rgba(248,244,238,0.6);
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── BOOKING ─── */
+    #booking {
+      background: linear-gradient(180deg, #08101f 0%, var(--ocean-midnight) 100%);
+      padding: 7rem 3rem;
+    }
+    .booking-wrap {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6rem;
+      align-items: start;
+    }
+    .booking-form { margin-top: 3rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
+    .form-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(248,244,238,0.5);
+    }
+    .form-input {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(0,180,216,0.2);
+      color: var(--sand);
+      padding: 0.875rem 1rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      transition: border-color 0.3s;
+      outline: none;
+      width: 100%;
+    }
+    .form-input:focus { border-color: var(--cyan); }
+    .form-input::placeholder { color: rgba(248,244,238,0.25); }
+    select.form-input { cursor: pointer; }
+    select.form-input option { background: var(--ocean-midnight); }
+    textarea.form-input { resize: vertical; min-height: 100px; }
+
+    .price-summary {
+      background: rgba(0,180,216,0.05);
+      border: 1px solid rgba(0,180,216,0.2);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .price-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.5rem 0;
+      font-size: 0.875rem;
+      color: rgba(248,244,238,0.65);
+      border-bottom: 1px solid rgba(0,180,216,0.1);
+    }
+    .price-row:last-child { border-bottom: none; font-weight: 600; color: var(--sand); font-size: 1rem; }
+    .price-row span:last-child { font-family: 'Space Mono', monospace; color: var(--gold); }
+
+    .booking-info h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      color: var(--sand);
+      margin-bottom: 0.75rem;
+      margin-top: 2rem;
+    }
+    .booking-info h3:first-child { margin-top: 3rem; }
+    .booking-info ul {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 0.6rem;
+    }
+    .booking-info li {
+      font-size: 0.875rem;
+      color: rgba(248,244,238,0.6);
+      padding-left: 1.25rem;
+      position: relative;
+    }
+    .booking-info li::before {
+      content: '—';
+      position: absolute; left: 0;
+      color: var(--cyan);
+    }
+
+    /* ─── REVIEWS ─── */
+    #reviews { background: var(--ocean-midnight); padding: 7rem 3rem; }
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .review-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(0,180,216,0.1);
+      padding: 2rem;
+      transition: border-color 0.3s;
+    }
+    .review-card:hover { border-color: rgba(0,180,216,0.3); }
+    .review-stars { color: var(--gold); font-size: 0.85rem; margin-bottom: 1rem; letter-spacing: 0.1em; }
+    .review-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      line-height: 1.65;
+      color: rgba(248,244,238,0.8);
+      margin-bottom: 1.25rem;
+    }
+    .review-author {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(248,244,238,0.45);
+    }
+    .review-location { color: var(--cyan); }
+
+    /* ─── LOCATION ─── */
+    #location { background: #08101f; }
+    .location-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .map-embed {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border: 1px solid rgba(0,180,216,0.15);
+      position: relative;
+      overflow: hidden;
+    }
+    .map-placeholder {
+      width: 100%;
+      aspect-ratio: 1;
+      background: rgba(0,180,216,0.05);
+      border: 1px solid rgba(0,180,216,0.15);
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column;
+      gap: 1rem;
+      position: relative;
+    }
+    .map-placeholder-text {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      color: rgba(0,180,216,0.6);
+      letter-spacing: 0.2em;
+      text-align: center;
+    }
+    .coord {
+      font-family: 'Space Mono', monospace;
+      font-size: 1.2rem;
+      color: var(--cyan);
+      letter-spacing: 0.05em;
+    }
+    .location-item {
+      display: flex; gap: 1.5rem;
+      margin-bottom: 2rem;
+      align-items: flex-start;
+    }
+    .location-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      margin-top: 0.25rem;
+    }
+    .location-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 0.35rem;
+    }
+    .location-value {
+      font-size: 0.95rem;
+      color: rgba(248,244,238,0.7);
+      line-height: 1.6;
+    }
+
+    /* ─── FAQ ─── */
+    #faq { background: var(--ocean-midnight); }
+    .faq-list { max-width: 760px; margin: 3rem 0 0; }
+    .faq-item {
+      border-bottom: 1px solid rgba(0,180,216,0.1);
+      overflow: hidden;
+    }
+    .faq-q {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.5rem 0;
+      cursor: pointer;
+      gap: 1rem;
+    }
+    .faq-q-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--sand);
+    }
+    .faq-icon {
+      font-size: 1.25rem;
+      color: var(--cyan);
+      flex-shrink: 0;
+      transition: transform 0.3s;
+      line-height: 1;
+    }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s;
+    }
+    .faq-a-inner {
+      padding-bottom: 1.5rem;
+      font-size: 0.9rem;
+      line-height: 1.8;
+      color: rgba(248,244,238,0.55);
+    }
+
+    /* ─── CONTACT ─── */
+    #contact { background: #08101f; }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 6rem;
+      align-items: start;
+    }
+    .contact-detail {
+      display: flex; gap: 1rem; align-items: flex-start;
+      margin-bottom: 2rem;
+    }
+    .contact-icon { font-size: 1.25rem; flex-shrink: 0; }
+    .contact-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(248,244,238,0.35);
+      margin-bottom: 0.3rem;
+    }
+    .contact-value {
+      font-size: 0.95rem;
+      color: rgba(248,244,238,0.7);
+    }
+    .contact-value a { color: var(--cyan); text-decoration: none; }
+
+    /* ─── FOOTER ─── */
+    #footer {
+      background: #060e1a;
+      padding: 4rem 3rem 2rem;
+      border-top: 1px solid rgba(0,180,216,0.1);
+    }
+    .footer-grid {
+      max-width: 1200px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid rgba(0,180,216,0.08);
+    }
+    .footer-brand p {
+      font-size: 0.875rem;
+      line-height: 1.75;
+      color: rgba(248,244,238,0.4);
+      margin-top: 1rem;
+      max-width: 280px;
+    }
+    .footer-col h4 {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(248,244,238,0.35);
+      margin-bottom: 1.25rem;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+    .footer-col ul a {
+      font-size: 0.875rem;
+      color: rgba(248,244,238,0.5);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .footer-col ul a:hover { color: var(--cyan); }
+    .footer-bottom {
+      max-width: 1200px; margin: 2rem auto 0;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-copy {
+      font-size: 0.75rem;
+      color: rgba(248,244,238,0.25);
+      font-family: 'Space Mono', monospace;
+    }
+    .social-links { display: flex; gap: 1.25rem; }
+    .social-link {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(0,180,216,0.2);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(248,244,238,0.5);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+    }
+    .social-link:hover { border-color: var(--cyan); color: var(--cyan); }
+
+    /* ─── MODALS ─── */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 2000;
+      background: rgba(6,14,26,0.92);
+      backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.4s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: #0d1d33;
+      border: 1px solid rgba(0,180,216,0.2);
+      padding: 3rem;
+      max-width: 520px; width: 100%;
+      position: relative;
+      transform: translateY(20px);
+      transition: transform 0.4s;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-overlay.open .modal { transform: translateY(0); }
+    .modal-close {
+      position: absolute; top: 1.25rem; right: 1.25rem;
+      background: none; border: none;
+      color: rgba(248,244,238,0.4);
+      font-size: 1.25rem; cursor: pointer;
+      transition: color 0.3s;
+    }
+    .modal-close:hover { color: var(--cyan); }
+    .modal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 400;
+      color: var(--sand);
+      margin-bottom: 0.5rem;
+    }
+    .modal-sub {
+      font-size: 0.875rem;
+      color: rgba(248,244,238,0.5);
+      margin-bottom: 2rem;
+    }
+
+    /* ─── NOTIFICATION ─── */
+    .notification {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 3000;
+      background: #0d1d33;
+      border: 1px solid rgba(0,180,216,0.3);
+      padding: 1.25rem 1.75rem;
+      max-width: 360px;
+      transform: translateX(120%);
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .notification.show { transform: translateX(0); }
+    .notification.success { border-color: rgba(0,180,216,0.5); }
+    .notification.error { border-color: rgba(239,68,68,0.5); }
+    .notification-title { font-weight: 600; color: var(--sand); margin-bottom: 0.25rem; font-size: 0.9rem; }
+    .notification-msg { font-size: 0.8rem; color: rgba(248,244,238,0.6); }
+
+    /* ─── AVAILABILITY indicator ─── */
+    .availability-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 1rem;
+    }
+    .availability-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      animation: availPulse 2s infinite;
+    }
+    .availability-dot.available { background: #22c55e; }
+    .availability-dot.unavailable { background: #ef4444; }
+    @keyframes availPulse {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    /* ─── LOADING SPINNER ─── */
+    .spinner {
+      display: inline-block;
+      width: 18px; height: 18px;
+      border: 2px solid rgba(0,180,216,0.2);
+      border-top-color: var(--cyan);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ─── GSAP REVEAL ─── */
+    .reveal { opacity: 0; transform: translateY(30px); }
+    .reveal-left { opacity: 0; transform: translateX(-40px); }
+    .reveal-right { opacity: 0; transform: translateX(40px); }
+
+    /* ─── PARALLAX ─── */
+    .parallax-img { will-change: transform; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      .story-grid, .booking-wrap, .location-grid, .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .features-grid .feature-card:nth-child(2n) { border-right: none; }
+      .features-grid .feature-card:nth-child(3) { border-right: 1px solid rgba(0,180,216,0.15); }
+      .features-grid .feature-card:nth-last-child(-n+2) { border-bottom: none; }
+      .rooms-grid { grid-template-columns: 1fr; }
+      .room-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+      .reviews-grid { grid-template-columns: 1fr 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .story-stat { left: 0.5rem; }
+      .story-img-accent { right: -1rem; }
+    }
+
+    @media (max-width: 768px) {
+      .section { padding: 5rem 1.5rem; }
+      #nav { padding: 1.25rem 1.5rem; }
+      #nav.scrolled { padding: 1rem 1.5rem; }
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      #booking { padding: 5rem 1.5rem; }
+      #gallery { padding: 5rem 0; }
+      .gallery-header { padding: 0 1.5rem; }
+      .gallery-scroll { padding: 0 1.5rem 1rem; }
+      .gallery-item:nth-child(n) { width: 85vw; height: 280px; }
+      .form-row { grid-template-columns: 1fr; }
+      .reviews-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+      #footer { padding: 3rem 1.5rem 2rem; }
+    }
+
+    #lightboxOverlay.open {
+      opacity: 1 !important;
+      pointer-events: all !important;
+    }
+
+    /* ─── ADMIN BADGE ─── */
+    .admin-link {
+      position: fixed; bottom: 1.5rem; left: 1.5rem;
+      background: rgba(10,22,40,0.8);
+      border: 1px solid rgba(0,180,216,0.2);
+      color: rgba(248,244,238,0.3);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      padding: 0.5rem 0.75rem;
+      text-decoration: none;
+      transition: all 0.3s;
+      z-index: 500;
+    }
+    .admin-link:hover { color: var(--cyan); border-color: rgba(0,180,216,0.5); }
+  </style>
+</head>
+
+<body>
+
+<!-- ════════════════════════ SITE LOADER ════════════════════════ -->
+<div id="siteLoader">
+  <span class="loader-logo">TipSea <span>Point</span></span>
+  <div class="loader-wave">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <p class="loader-text">Hope Town · Bahamas</p>
+</div>
+
+<!-- Custom cursor -->
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+
+<!-- Scroll progress -->
+<div id="scrollProgress"></div>
+
+<!-- Floating CTA -->
+<div id="floatingCta">
+  <button class="floating-btn" onclick="openModal('bookingModal')">
+    <span class="floating-btn-icon">🌊</span> Reserve Now
+  </button>
+</div>
+
+<!-- ════════════════════════ NAVIGATION ════════════════════════ -->
+<nav id="nav">
+  <a href="#" class="nav-logo">TipSea <span>Point</span></a>
+  <ul class="nav-links">
+    <li><a href="#story">The Estate</a></li>
+    <li><a href="#accommodation">Accommodations</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#location">Location</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="openModal('bookingModal')">Reserve Now</button>
+  <div class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#story" onclick="toggleMobileMenu()">The Estate</a>
+  <a href="#accommodation" onclick="toggleMobileMenu()">Accommodations</a>
+  <a href="#gallery" onclick="toggleMobileMenu()">Gallery</a>
+  <a href="#location" onclick="toggleMobileMenu()">Location</a>
+  <a href="#reviews" onclick="toggleMobileMenu()">Reviews</a>
+  <a href="#contact" onclick="toggleMobileMenu()">Contact</a>
+  <button class="btn-primary" onclick="openModal('bookingModal'); toggleMobileMenu()">Reserve Now</button>
+</div>
+
+<!-- ════════════════════════ HERO ════════════════════════ -->
+<section id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-grain"></div>
+  <canvas class="particles-canvas" id="heroParticles"></canvas>
+  <div class="hero-content">
+    <p class="hero-eyebrow" id="heroEyebrow">Hope Town · Elbow Cay · Abaco, The Bahamas</p>
+    <h1 class="hero-title" id="heroTitle">
+      Where the<br><em>Atlantic</em><br>meets paradise
+    </h1>
+    <p class="hero-sub" id="heroSub">
+      An exclusive private estate suspended between sea and sky — yours alone, for as long as you wish.
+    </p>
+    <div class="hero-actions" id="heroActions">
+      <button class="btn-primary" onclick="openModal('bookingModal')">Reserve Your Stay</button>
+      <a href="#story" class="btn-ghost">Discover the Estate</a>
+    </div>
+  </div>
+  <div class="scroll-hint" id="scrollHint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ════════════════════════ TIDE DIVIDER ════════════════════════ -->
+<div class="tide-divider">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 60" preserveAspectRatio="none">
+    <path d="M0,30 C240,60 480,0 720,30 C960,60 1200,0 1440,30 L1440,60 L0,60 Z"
+      fill="#0A1628" opacity="0.8"/>
+    <path d="M0,40 C360,10 720,55 1080,25 C1260,10 1380,45 1440,40 L1440,60 L0,60 Z"
+      fill="#0A1628"/>
+  </svg>
+</div>
+
+<!-- ════════════════════════ MARQUEE STRIP ════════════════════════ -->
+<div class="marquee-track">
+  <div class="marquee-inner">
+    <span class="marquee-item"><span class="marquee-dot"></span>Hope Town, Elbow Cay</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Private Beachfront Estate</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>4 Bedrooms · 12 Guests</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Atlantic & Sea of Abaco</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Putting Green Included</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Private Dock Access</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>World-Class Bonefishing</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Concierge Services</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Hope Town, Elbow Cay</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Private Beachfront Estate</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>4 Bedrooms · 12 Guests</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Atlantic & Sea of Abaco</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Putting Green Included</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Private Dock Access</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>World-Class Bonefishing</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Concierge Services</span>
+  </div>
+</div>
+
+<!-- ════════════════════════ LIGHTBOX ════════════════════════ -->
+<div id="lightboxOverlay" style="position:fixed;inset:0;z-index:5000;background:rgba(6,14,26,0.96);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.4s;padding:2rem;">
+  <button id="lightboxClose" style="position:absolute;top:1.5rem;right:1.5rem;background:none;border:none;color:rgba(248,244,238,0.5);font-size:1.5rem;cursor:pointer;transition:color 0.3s;" onmouseenter="this.style.color='#00B4D8'" onmouseleave="this.style.color='rgba(248,244,238,0.5)'">✕</button>
+  <img id="lightboxImg" src="" alt="Gallery image" style="max-width:90%;max-height:88vh;object-fit:contain;border:1px solid rgba(0,180,216,0.15);" />
+</div>
+
+<!-- ════════════════════════ STORY / ABOUT ════════════════════════ -->
+<section id="story" class="section">
+  <div class="section-inner">
+    <div class="story-grid">
+      <div class="story-image-wrap reveal-left">
+        <img
+          src="https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=700&q=85"
+          alt="TipSea Point waterfront"
+          class="story-img parallax-img"
+          loading="lazy"
+        />
+        <img
+          src="https://images.unsplash.com/photo-1540541338537-1220059af400?w=400&q=85"
+          alt="Tropical sunset"
+          class="story-img-accent"
+          loading="lazy"
+        />
+        <div class="story-stat">
+          <div class="story-stat-num">26°</div>
+          <div class="story-stat-label">Year-round warmth</div>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <p class="section-label">Our Story</p>
+        <h2 class="section-title">
+          A private sanctuary<br><em>unlike any other</em>
+        </h2>
+        <div style="width:48px;height:1px;background:var(--cyan);margin:1.5rem 0;"></div>
+        <p class="section-body" style="margin-bottom:1.25rem;">
+          Nestled at the southern tip of Elbow Cay, TipSea Point has been a treasured hideaway for those who seek something beyond the ordinary. The property commands unobstructed views across the Sea of Abaco and the Atlantic — two distinct bodies of water meeting at your doorstep.
+        </p>
+        <p class="section-body" style="margin-bottom:2rem;">
+          With access to pristine private beaches, world-class bonefishing flats, and the charming pastel streets of Hope Town just minutes away, this estate offers a rare synthesis of total seclusion and curated adventure.
+        </p>
+        <div style="display:flex;gap:3rem;">
+          <div>
+            <div class="counter-num" data-counter="5" data-suffix="★">0★</div>
+            <div style="font-size:0.75rem;color:rgba(248,244,238,0.4);letter-spacing:0.1em;text-transform:uppercase;">Guest Rating</div>
+          </div>
+          <div>
+            <div class="counter-num" data-counter="4">0</div>
+            <div style="font-size:0.75rem;color:rgba(248,244,238,0.4);letter-spacing:0.1em;text-transform:uppercase;">Bedrooms</div>
+          </div>
+          <div>
+            <div class="counter-num" data-counter="12">0</div>
+            <div style="font-size:0.75rem;color:rgba(248,244,238,0.4);letter-spacing:0.1em;text-transform:uppercase;">Max Guests</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ FEATURES ════════════════════════ -->
+<section id="features" class="section">
+  <div class="section-inner">
+    <p class="section-label reveal">Estate Highlights</p>
+    <h2 class="section-title reveal" style="max-width:500px;margin-bottom:3.5rem;">Everything curated.<br><em>Nothing overlooked.</em></h2>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <span class="feature-icon">🌊</span>
+        <h3 class="feature-title">Private Beachfront</h3>
+        <p class="feature-text">Step directly onto your own stretch of powder-white sand. No shared access. No crowds. Just the rhythm of the Atlantic and absolute solitude.</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-icon">🏌️</span>
+        <h3 class="feature-title">Putting Green</h3>
+        <p class="feature-text">A manicured putting green set against the backdrop of tropical palms — perfect for morning practice before a day on the water.</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-icon">🌅</span>
+        <h3 class="feature-title">360° Sunset Views</h3>
+        <p class="feature-text">The estate's unique tip position delivers both Atlantic sunrises and Sea of Abaco sunsets — two spectacles, daily, from a single vantage point.</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-icon">⛵</span>
+        <h3 class="feature-title">Private Dock</h3>
+        <p class="feature-text">Arrive by boat and tie up at your own private dock. Deep-water access accommodates vessels up to 40 feet. Day trips to uninhabited cays included.</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-icon">🐠</span>
+        <h3 class="feature-title">World-Class Fishing</h3>
+        <p class="feature-text">The Marls of Abaco are minutes away. Bone fish, tarpon, and permit await on the flats. Our preferred guides are available upon request.</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-icon">🍹</span>
+        <h3 class="feature-title">Concierge Services</h3>
+        <p class="feature-text">From private chef arrangements to provisioning, island tours, and excursion planning — your experience is entirely bespoke.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ GALLERY ════════════════════════ -->
+<section id="gallery">
+  <div class="gallery-header">
+    <p class="section-label reveal">Visual Journey</p>
+    <h2 class="section-title reveal">Life at <em>TipSea Point</em></h2>
+  </div>
+  <div class="gallery-scroll" id="galleryScroll">
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1547040703-c4dc38948c9a?w=900&q=85" alt="Tropical beach" loading="lazy" />
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&q=85" alt="Ocean view" loading="lazy" />
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=760&q=85" alt="Sunset palm" loading="lazy" />
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=540&q=85" alt="Turquoise water" loading="lazy" />
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1540541338537-1220059af400?w=820&q=85" alt="Vacation home" loading="lazy" />
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ ACCOMMODATION ════════════════════════ -->
+<section id="accommodation" class="section">
+  <div class="section-inner">
+    <p class="section-label reveal">Accommodations</p>
+    <h2 class="section-title reveal">Spaces crafted<br>for <em>deep rest</em></h2>
+    <div class="rooms-grid" style="margin-top:3rem;">
+      <div class="room-card featured reveal">
+        <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=800&q=85" alt="Master Suite" class="room-img" loading="lazy" />
+        <div class="room-body">
+          <p class="room-tag">Primary Suite</p>
+          <h3 class="room-name">The Horizon Suite</h3>
+          <p class="room-desc">The crown of TipSea Point. Floor-to-ceiling glass frames an uninterrupted Atlantic panorama from the king-size bed. The ensuite soaking tub is positioned to face the sunrise. A private terrace with daybed completes the experience.</p>
+          <div class="room-amenities">
+            <span class="amenity-tag">King Bed</span>
+            <span class="amenity-tag">Soaking Tub</span>
+            <span class="amenity-tag">Private Terrace</span>
+            <span class="amenity-tag">Ocean View</span>
+            <span class="amenity-tag">Walk-in Closet</span>
+          </div>
+        </div>
+      </div>
+      <div class="room-card reveal">
+        <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=700&q=85" alt="Guest Suite" class="room-img" loading="lazy" />
+        <div class="room-body" style="padding:1.5rem 2rem;">
+          <p class="room-tag">Guest Suite</p>
+          <h3 class="room-name">The Palapa Room</h3>
+          <p class="room-desc">Nestled beneath a canopy of palms, this suite opens directly onto the garden terrace and pool area.</p>
+          <div class="room-amenities">
+            <span class="amenity-tag">Queen Bed</span>
+            <span class="amenity-tag">Garden View</span>
+            <span class="amenity-tag">Ensuite Bath</span>
+          </div>
+        </div>
+      </div>
+      <div class="room-card reveal">
+        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=700&q=85" alt="Bunk Room" class="room-img" loading="lazy" />
+        <div class="room-body" style="padding:1.5rem 2rem;">
+          <p class="room-tag">Family Suite</p>
+          <h3 class="room-name">The Cay Room</h3>
+          <p class="room-desc">Designed with families in mind — a queen and twin bunk setup with direct beach access and a view of the dock.</p>
+          <div class="room-amenities">
+            <span class="amenity-tag">Queen + Bunks</span>
+            <span class="amenity-tag">Beach Access</span>
+            <span class="amenity-tag">Dock View</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ BOOKING ════════════════════════ -->
+<section id="booking">
+  <div class="booking-wrap">
+    <div>
+      <p class="section-label reveal">Check Availability</p>
+      <h2 class="section-title reveal">Begin your<br><em>reservation</em></h2>
+      <div style="width:48px;height:1px;background:var(--cyan);margin:1.5rem 0;" class="reveal"></div>
+      <p class="section-body reveal">
+        TipSea Point is available for exclusive whole-property rental. Minimum stay of 5 nights. All inquiries are personally attended to within 24 hours.
+      </p>
+      <div class="availability-badge reveal" id="availStatus">
+        <span class="availability-dot available"></span>
+        <span style="color:rgba(248,244,238,0.5);">Accepting reservations</span>
+      </div>
+
+      <!-- Booking Info -->
+      <div class="booking-info">
+        <h3>What's Included</h3>
+        <ul>
+          <li>Exclusive use of the entire estate</li>
+          <li>Dedicated concierge pre-arrival</li>
+          <li>Private dock access</li>
+          <li>Welcome provisioning basket</li>
+          <li>Golf cart for island transport</li>
+        </ul>
+        <h3>Pricing</h3>
+        <ul>
+          <li>Peak Season (Dec–Apr): $1,500/night</li>
+          <li>Standard Season (May–Nov): $1,200/night</li>
+          <li>Security deposit: $2,000 (fully refundable)</li>
+          <li>Minimum stay: 5 nights</li>
+        </ul>
+        <h3>Policies</h3>
+        <ul>
+          <li>No smoking inside the property</li>
+          <li>Pets considered on request</li>
+          <li>Check-in 3pm · Check-out 11am</li>
+        </ul>
+      </div>
+    </div>
+
+    <div>
+      <div id="priceCalc" class="price-summary" style="display:none;">
+        <div class="price-row"><span>Nightly rate</span><span id="calcRate">—</span></div>
+        <div class="price-row"><span>Nights</span><span id="calcNights">—</span></div>
+        <div class="price-row"><span>Subtotal</span><span id="calcTotal">—</span></div>
+        <div class="price-row"><span>Security deposit</span><span>$2,000</span></div>
+        <div class="price-row"><span>Estimated total</span><span id="calcGrand">—</span></div>
+      </div>
+
+      <div class="booking-form reveal">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Check-In</label>
+            <input type="date" id="checkIn" class="form-input" onchange="calculatePrice()" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Check-Out</label>
+            <input type="date" id="checkOut" class="form-input" onchange="calculatePrice()" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Adults</label>
+            <select id="adults" class="form-input">
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="6">6</option>
+              <option value="8">8</option>
+              <option value="10">10</option>
+              <option value="12">12</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Children</label>
+            <select id="children" class="form-input">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">First Name</label>
+            <input type="text" id="bkFirstName" class="form-input" placeholder="James" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last Name</label>
+            <input type="text" id="bkLastName" class="form-input" placeholder="Whitmore" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" id="bkEmail" class="form-input" placeholder="james@example.com" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone Number</label>
+          <input type="tel" id="bkPhone" class="form-input" placeholder="+1 (305) 000-0000" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Special Requests</label>
+          <textarea id="bkRequests" class="form-input" placeholder="Dietary requirements, celebrations, boat rental..."></textarea>
+        </div>
+        <button class="btn-primary" style="width:100%;padding:1.1rem;" onclick="submitBooking()" id="submitBookingBtn">
+          Request Reservation
+        </button>
+        <p style="font-size:0.75rem;color:rgba(248,244,238,0.3);margin-top:0.75rem;text-align:center;">
+          No payment collected at this stage. We'll confirm availability and send details within 24 hours.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ REVIEWS ════════════════════════ -->
+<section id="reviews">
+  <div class="section-inner">
+    <p class="section-label reveal">Guest Voices</p>
+    <h2 class="section-title reveal">Stories from<br><em>our guests</em></h2>
+    <div class="reviews-grid" id="reviewsGrid">
+      <!-- Reviews loaded dynamically, fallback below -->
+      <div class="review-card reveal">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Walking out each morning to that view — water in every direction, silence except for the waves — it's the most at-peace I've ever felt on a vacation."</p>
+        <p class="review-author">Catherine M. — <span class="review-location">New York, USA</span></p>
+      </div>
+      <div class="review-card reveal">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"The putting green at sunset is something I will talk about forever. The concierge arranged fresh conch for dinner. Truly unmatched."</p>
+        <p class="review-author">David & Sarah K. — <span class="review-location">London, UK</span></p>
+      </div>
+      <div class="review-card reveal">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"We've rented luxury properties across the Caribbean. TipSea Point is in its own category. The location alone is worth every penny."</p>
+        <p class="review-author">Marcus R. — <span class="review-location">Toronto, Canada</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ LOCATION ════════════════════════ -->
+<section id="location" class="section">
+  <div class="section-inner">
+    <div class="location-grid">
+      <div class="reveal-left">
+        <p class="section-label">Find Us</p>
+        <h2 class="section-title">Hope Town,<br><em>Elbow Cay</em></h2>
+        <div style="width:48px;height:1px;background:var(--cyan);margin:1.5rem 0;"></div>
+        <p class="section-body" style="margin-bottom:2.5rem;">
+          Elbow Cay is a 10-mile ribbon of land accessible only by boat — part of its enduring magic. Fly into Marsh Harbour (MHH) and a 20-minute water taxi delivers you to another world.
+        </p>
+
+        <div class="location-item">
+          <span class="location-icon">✈️</span>
+          <div>
+            <p class="location-label">Nearest Airport</p>
+            <p class="location-value">Marsh Harbour International Airport (MHH)<br>30 min by water taxi total</p>
+          </div>
+        </div>
+        <div class="location-item">
+          <span class="location-icon">⛵</span>
+          <div>
+            <p class="location-label">Water Taxi</p>
+            <p class="location-value">Albury's Ferry Service runs daily.<br>15-min ride to Hope Town.</p>
+          </div>
+        </div>
+        <div class="location-item">
+          <span class="location-icon">🏘️</span>
+          <div>
+            <p class="location-label">Hope Town Village</p>
+            <p class="location-value">5 min by golf cart. Dining, shops,<br>the iconic striped lighthouse.</p>
+          </div>
+        </div>
+        <div class="location-item">
+          <span class="location-icon">📍</span>
+          <div>
+            <p class="location-label">Coordinates</p>
+            <p class="location-value coord">26°33'N, 76°58'W</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="map-placeholder reveal-right">
+        <div class="coord">26°33'N · 76°58'W</div>
+        <p class="map-placeholder-text">Elbow Cay · Abaco · The Bahamas</p>
+        <div style="font-size:3rem;margin:0.5rem 0;">🌊</div>
+        <a href="https://maps.google.com/?q=Hope+Town+Elbow+Cay+Bahamas" target="_blank" rel="noopener" class="btn-ghost" style="font-size:0.7rem;padding:0.6rem 1.25rem;">
+          Open in Google Maps ↗
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ FAQ ════════════════════════ -->
+<section id="faq" class="section">
+  <div class="section-inner">
+    <p class="section-label reveal">Frequently Asked</p>
+    <h2 class="section-title reveal">Questions &<br><em>Answers</em></h2>
+    <div class="faq-list" id="faqList">
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-text">How do we get to TipSea Point?</span><span class="faq-icon">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Fly into Marsh Harbour International (MHH) from Miami, Nassau, or Fort Lauderdale. From Marsh Harbour, take Albury's Ferry to Hope Town (~15 min) — or we can arrange a private boat transfer. A golf cart will meet you at the dock and deliver you directly to the estate.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-text">Is the entire property private?</span><span class="faq-icon">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Yes. TipSea Point is rented exclusively — no shared facilities, no other guests. The entire estate, beach, dock, and grounds are yours for the duration of your stay.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-text">Can we arrange a private chef?</span><span class="faq-icon">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Absolutely. We work with several exceptional local chefs who can be booked to cook daily, prepare a welcome dinner, or handle specific meals during your stay. Just let us know in your booking request and we'll make the arrangements.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-text">What water activities are available?</span><span class="faq-icon">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner">From the property you have access to kayaks and snorkeling equipment. We can arrange bone fishing and deep-sea charters, boat rentals, spearfishing excursions, diving with Brendal's Dive Center, and day trips to uninhabited cays in the area.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-text">What is your cancellation policy?</span><span class="faq-icon">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Cancellations made 60+ days before arrival receive a full refund minus a $200 processing fee. Cancellations 30–60 days prior forfeit 50% of the total. Within 30 days, no refund is issued. We strongly recommend travel insurance for international bookings.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="faq-q-text">Is the property suitable for children?</span><span class="faq-icon">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner">TipSea Point is a wonderful family destination. Children enjoy the calm-water access, the putting green, and the shallow bay area. We ask that children be supervised near the dock and deeper water areas. Please mention children's ages when booking so we can prepare appropriately.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ CONTACT ════════════════════════ -->
+<section id="contact" class="section">
+  <div class="section-inner">
+    <div class="contact-grid">
+      <div class="reveal-left">
+        <p class="section-label">Get In Touch</p>
+        <h2 class="section-title">Let's plan your<br><em>escape</em></h2>
+        <div style="width:48px;height:1px;background:var(--cyan);margin:1.5rem 0;"></div>
+        <p class="section-body" style="margin-bottom:3rem;">
+          Every great stay begins with a conversation. Reach out and we'll personally guide you through availability, special arrangements, and anything that makes your visit unforgettable.
+        </p>
+
+        <div class="contact-detail">
+          <span class="contact-icon">📧</span>
+          <div>
+            <p class="contact-label">Email</p>
+            <p class="contact-value"><a href="mailto:hello@tipseapoint.com">hello@tipseapoint.com</a></p>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <span class="contact-icon">📱</span>
+          <div>
+            <p class="contact-label">Instagram</p>
+            <p class="contact-value"><a href="https://instagram.com/tipseapoint" target="_blank" rel="noopener">@tipseapoint</a></p>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <span class="contact-icon">🌐</span>
+          <div>
+            <p class="contact-label">Location</p>
+            <p class="contact-value">Hope Town, Elbow Cay<br>Abaco, The Bahamas</p>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <span class="contact-icon">⏰</span>
+          <div>
+            <p class="contact-label">Response Time</p>
+            <p class="contact-value">Within 24 hours, typically sooner</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal-right">
+        <div class="form-group">
+          <label class="form-label">Your Name</label>
+          <input type="text" id="ctName" class="form-input" placeholder="Full name" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" id="ctEmail" class="form-input" placeholder="your@email.com" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone (Optional)</label>
+          <input type="tel" id="ctPhone" class="form-input" placeholder="+1 (000) 000-0000" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Preferred Check-In</label>
+            <input type="date" id="ctCheckIn" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Preferred Check-Out</label>
+            <input type="date" id="ctCheckOut" class="form-input" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message</label>
+          <textarea id="ctMessage" class="form-input" style="min-height:130px;" placeholder="Tell us about your dream stay..."></textarea>
+        </div>
+        <button class="btn-primary" style="width:100%;padding:1.1rem;" onclick="submitInquiry()" id="submitInquiryBtn">
+          Send Message
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ FOOTER ════════════════════════ -->
+<footer id="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="nav-logo" style="font-size:1.6rem;">TipSea <span>Point</span></a>
+      <p>A private luxury estate at the southern tip of Elbow Cay, Hope Town, Abaco — The Bahamas. Where the Atlantic and the Sea of Abaco meet in perfect harmony.</p>
+    </div>
+    <div class="footer-col">
+      <h4>The Estate</h4>
+      <ul>
+        <li><a href="#story">Our Story</a></li>
+        <li><a href="#features">Highlights</a></li>
+        <li><a href="#accommodation">Accommodations</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Planning</h4>
+      <ul>
+        <li><a href="#booking">Book a Stay</a></li>
+        <li><a href="#location">Getting There</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Experience</h4>
+      <ul>
+        <li><a href="#">Fishing Charters</a></li>
+        <li><a href="#">Private Chef</a></li>
+        <li><a href="#">Boat Rentals</a></li>
+        <li><a href="#">Island Tours</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 TipSea Point. All rights reserved. Hope Town, Abaco, Bahamas.</p>
+    <div class="social-links">
+      <a href="https://instagram.com/tipseapoint" target="_blank" rel="noopener" class="social-link">ig</a>
+      <a href="mailto:hello@tipseapoint.com" class="social-link">✉</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ════════════════════════ BOOKING MODAL ════════════════════════ -->
+<div class="modal-overlay" id="bookingModal" onclick="closeModalOutside(event, 'bookingModal')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('bookingModal')">✕</button>
+    <h2 class="modal-title">Request Reservation</h2>
+    <p class="modal-sub">Complete the form below. We'll confirm within 24 hours.</p>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Check-In</label>
+        <input type="date" id="mCheckIn" class="form-input" onchange="calcModalPrice()" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Check-Out</label>
+        <input type="date" id="mCheckOut" class="form-input" onchange="calcModalPrice()" />
+      </div>
+    </div>
+    <div id="modalPriceSummary" style="display:none;" class="price-summary">
+      <div class="price-row"><span>Rate</span><span id="mRate">—</span></div>
+      <div class="price-row"><span>Nights</span><span id="mNights">—</span></div>
+      <div class="price-row"><span>Estimated total</span><span id="mTotal">—</span></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">First Name</label>
+        <input type="text" id="mFirstName" class="form-input" placeholder="James" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Last Name</label>
+        <input type="text" id="mLastName" class="form-input" placeholder="Whitmore" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input type="email" id="mEmail" class="form-input" placeholder="james@example.com" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Phone</label>
+      <input type="tel" id="mPhone" class="form-input" placeholder="+1 (305) 000-0000" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Adults</label>
+      <select id="mAdults" class="form-input">
+        <option value="2">2 Adults</option>
+        <option value="4">4 Adults</option>
+        <option value="6">6 Adults</option>
+        <option value="8">8 Adults</option>
+        <option value="10">10 Adults</option>
+        <option value="12">12 Adults</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Special Requests</label>
+      <textarea id="mRequests" class="form-input" placeholder="Tell us about your trip..."></textarea>
+    </div>
+    <button class="btn-primary" style="width:100%;padding:1.1rem;" onclick="submitModalBooking()" id="submitModalBtn">
+      Send Reservation Request
+    </button>
+  </div>
+</div>
+
+<!-- ════════════════════════ NOTIFICATION ════════════════════════ -->
+<div class="notification" id="notification">
+  <p class="notification-title" id="notifTitle">Success</p>
+  <p class="notification-msg" id="notifMsg">Your message has been sent.</p>
+</div>
+
+<!-- Admin link -->
+<a href="/admin" class="admin-link">Admin ↗</a>
+
+<script>
+// ══════════════════════════════════════════════
+//  GSAP ANIMATIONS
+// ══════════════════════════════════════════════
+gsap.registerPlugin(ScrollTrigger, CustomEase);
+CustomEase.create("swell", "M0,0 C0.2,0 0.1,1 1,1");
+
+// Hero entrance
+window.addEventListener('load', () => {
+  const tl = gsap.timeline({ delay: 0.2 });
+  tl.to('#heroEyebrow', { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' })
+    .to('#heroTitle', { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.4')
+    .to('#heroSub', { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, '-=0.5')
+    .to('#heroActions', { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, '-=0.4')
+    .to('#scrollHint', { opacity: 1, duration: 0.5 }, '-=0.2');
+});
+
+// Hero parallax
+gsap.to('#heroBg', {
+  yPercent: 25,
+  ease: 'none',
+  scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
+});
+
+// Scroll-triggered reveals
+document.querySelectorAll('.reveal').forEach(el => {
+  gsap.fromTo(el,
+    { opacity: 0, y: 30 },
+    {
+      opacity: 1, y: 0, duration: 0.85, ease: 'power2.out',
+      scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+    }
+  );
+});
+document.querySelectorAll('.reveal-left').forEach(el => {
+  gsap.fromTo(el,
+    { opacity: 0, x: -40 },
+    {
+      opacity: 1, x: 0, duration: 0.9, ease: 'power2.out',
+      scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
+    }
+  );
+});
+document.querySelectorAll('.reveal-right').forEach(el => {
+  gsap.fromTo(el,
+    { opacity: 0, x: 40 },
+    {
+      opacity: 1, x: 0, duration: 0.9, ease: 'power2.out',
+      scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
+    }
+  );
+});
+
+// Nav scroll
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ══════════════════════════════════════════════
+//  MOBILE MENU
+// ══════════════════════════════════════════════
+function toggleMobileMenu() {
+  document.getElementById('hamburger').classList.toggle('open');
+  document.getElementById('mobileMenu').classList.toggle('open');
+  document.body.style.overflow = document.getElementById('mobileMenu').classList.contains('open') ? 'hidden' : '';
+}
+
+// ══════════════════════════════════════════════
+//  MODALS
+// ══════════════════════════════════════════════
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeModalOutside(e, id) {
+  if (e.target.id === id) closeModal(id);
+}
+
+// ══════════════════════════════════════════════
+//  PRICE CALCULATOR
+// ══════════════════════════════════════════════
+function getPricePerNight(checkIn) {
+  const d = new Date(checkIn);
+  const month = d.getMonth() + 1;
+  return (month >= 12 || month <= 4) ? 1500 : 1200;
+}
+
+function calculatePrice() {
+  const ci = document.getElementById('checkIn').value;
+  const co = document.getElementById('checkOut').value;
+  if (!ci || !co) return;
+  const nights = Math.ceil((new Date(co) - new Date(ci)) / (86400000));
+  if (nights < 1) return;
+  const rate = getPricePerNight(ci);
+  const total = nights * rate;
+  document.getElementById('priceCalc').style.display = 'block';
+  document.getElementById('calcRate').textContent = '$' + rate.toLocaleString() + '/night';
+  document.getElementById('calcNights').textContent = nights + ' nights';
+  document.getElementById('calcTotal').textContent = '$' + total.toLocaleString();
+  document.getElementById('calcGrand').textContent = '$' + (total + 2000).toLocaleString();
+}
+
+function calcModalPrice() {
+  const ci = document.getElementById('mCheckIn').value;
+  const co = document.getElementById('mCheckOut').value;
+  if (!ci || !co) return;
+  const nights = Math.ceil((new Date(co) - new Date(ci)) / (86400000));
+  if (nights < 1) return;
+  const rate = getPricePerNight(ci);
+  const total = nights * rate;
+  document.getElementById('modalPriceSummary').style.display = 'block';
+  document.getElementById('mRate').textContent = '$' + rate.toLocaleString() + '/night';
+  document.getElementById('mNights').textContent = nights + ' nights';
+  document.getElementById('mTotal').textContent = '$' + total.toLocaleString();
+}
+
+// ══════════════════════════════════════════════
+//  NOTIFICATIONS
+// ══════════════════════════════════════════════
+function showNotification(title, msg, type = 'success') {
+  const el = document.getElementById('notification');
+  document.getElementById('notifTitle').textContent = title;
+  document.getElementById('notifMsg').textContent = msg;
+  el.className = 'notification ' + type + ' show';
+  setTimeout(() => { el.classList.remove('show'); }, 5000);
+}
+
+// ══════════════════════════════════════════════
+//  BOOKING FORM
+// ══════════════════════════════════════════════
+async function submitBooking() {
+  const btn = document.getElementById('submitBookingBtn');
+  const first = document.getElementById('bkFirstName').value.trim();
+  const last = document.getElementById('bkLastName').value.trim();
+  const email = document.getElementById('bkEmail').value.trim();
+  const phone = document.getElementById('bkPhone').value.trim();
+  const checkIn = document.getElementById('checkIn').value;
+  const checkOut = document.getElementById('checkOut').value;
+
+  if (!first || !last || !email || !phone || !checkIn || !checkOut) {
+    showNotification('Missing Info', 'Please fill in all required fields.', 'error');
+    return;
+  }
+
+  btn.innerHTML = '<span class="spinner"></span> Sending...';
+  btn.disabled = true;
+
+  try {
+    const resp = await fetch('/api/bookings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        guestName: first + ' ' + last,
+        guestEmail: email,
+        guestPhone: phone,
+        checkIn, checkOut,
+        adults: parseInt(document.getElementById('adults').value),
+        children: parseInt(document.getElementById('children').value),
+        specialRequests: document.getElementById('bkRequests').value
+      })
+    });
+    const data = await resp.json();
+    if (data.success) {
+      showNotification('Reservation Requested! 🌊', 'Confirmation code: ' + data.booking.confirmationCode + '. We\'ll be in touch shortly.');
+      btn.innerHTML = '✓ Request Sent';
+    } else {
+      throw new Error(data.message || 'Submission failed');
+    }
+  } catch (err) {
+    showNotification('Error', err.message || 'Something went wrong. Please try again.', 'error');
+    btn.innerHTML = 'Request Reservation';
+    btn.disabled = false;
+  }
+}
+
+async function submitModalBooking() {
+  const btn = document.getElementById('submitModalBtn');
+  const first = document.getElementById('mFirstName').value.trim();
+  const last = document.getElementById('mLastName').value.trim();
+  const email = document.getElementById('mEmail').value.trim();
+  const phone = document.getElementById('mPhone').value.trim();
+  const checkIn = document.getElementById('mCheckIn').value;
+  const checkOut = document.getElementById('mCheckOut').value;
+
+  if (!first || !last || !email || !phone || !checkIn || !checkOut) {
+    showNotification('Missing Info', 'Please fill in all required fields.', 'error');
+    return;
+  }
+
+  btn.innerHTML = '<span class="spinner"></span> Sending...';
+  btn.disabled = true;
+
+  try {
+    const resp = await fetch('/api/bookings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        guestName: first + ' ' + last,
+        guestEmail: email,
+        guestPhone: phone,
+        checkIn, checkOut,
+        adults: parseInt(document.getElementById('mAdults').value),
+        specialRequests: document.getElementById('mRequests').value
+      })
+    });
+    const data = await resp.json();
+    if (data.success) {
+      closeModal('bookingModal');
+      showNotification('Request Received! 🌊', 'Code: ' + data.booking.confirmationCode + '. We\'ll confirm within 24 hrs.');
+      btn.innerHTML = 'Send Reservation Request';
+      btn.disabled = false;
+    } else {
+      throw new Error(data.message || 'Submission failed');
+    }
+  } catch (err) {
+    showNotification('Error', err.message || 'Something went wrong.', 'error');
+    btn.innerHTML = 'Send Reservation Request';
+    btn.disabled = false;
+  }
+}
+
+// ══════════════════════════════════════════════
+//  CONTACT FORM
+// ══════════════════════════════════════════════
+async function submitInquiry() {
+  const btn = document.getElementById('submitInquiryBtn');
+  const name = document.getElementById('ctName').value.trim();
+  const email = document.getElementById('ctEmail').value.trim();
+  const message = document.getElementById('ctMessage').value.trim();
+
+  if (!name || !email || !message) {
+    showNotification('Missing Info', 'Name, email and message are required.', 'error');
+    return;
+  }
+
+  btn.innerHTML = '<span class="spinner"></span> Sending...';
+  btn.disabled = true;
+
+  try {
+    const resp = await fetch('/api/inquiries', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name, email,
+        phone: document.getElementById('ctPhone').value,
+        message,
+        preferredCheckIn: document.getElementById('ctCheckIn').value || undefined,
+        preferredCheckOut: document.getElementById('ctCheckOut').value || undefined
+      })
+    });
+    const data = await resp.json();
+    if (data.success) {
+      showNotification('Message Sent! ✓', 'We\'ll be in touch within 24 hours.');
+      btn.innerHTML = '✓ Message Sent';
+      ['ctName','ctEmail','ctPhone','ctCheckIn','ctCheckOut','ctMessage'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+    } else {
+      throw new Error(data.message || 'Submission failed');
+    }
+  } catch (err) {
+    showNotification('Error', err.message || 'Something went wrong.', 'error');
+    btn.innerHTML = 'Send Message';
+    btn.disabled = false;
+  }
+}
+
+// ══════════════════════════════════════════════
+//  FAQ ACCORDION
+// ══════════════════════════════════════════════
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.parentElement;
+    const answer = item.querySelector('.faq-a');
+    const isOpen = item.classList.contains('open');
+
+    // Close all
+    document.querySelectorAll('.faq-item').forEach(fi => {
+      fi.classList.remove('open');
+      fi.querySelector('.faq-a').style.maxHeight = '0';
+    });
+
+    // Toggle clicked
+    if (!isOpen) {
+      item.classList.add('open');
+      answer.style.maxHeight = answer.scrollHeight + 'px';
+    }
+  });
+});
+
+// ══════════════════════════════════════════════
+//  SET MIN DATES
+// ══════════════════════════════════════════════
+const today = new Date().toISOString().split('T')[0];
+['checkIn', 'mCheckIn', 'ctCheckIn'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.min = today;
+});
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+// Gallery drag scroll
+const gallery = document.getElementById('galleryScroll');
+let isDown = false, startX, scrollLeft;
+gallery.addEventListener('mousedown', e => { isDown = true; gallery.classList.add('dragging'); startX = e.pageX - gallery.offsetLeft; scrollLeft = gallery.scrollLeft; });
+gallery.addEventListener('mouseleave', () => { isDown = false; gallery.classList.remove('dragging'); });
+gallery.addEventListener('mouseup', () => { isDown = false; gallery.classList.remove('dragging'); });
+gallery.addEventListener('mousemove', e => { if (!isDown) return; e.preventDefault(); const x = e.pageX - gallery.offsetLeft; gallery.scrollLeft = scrollLeft - (x - startX) * 1.2; });
+
+// Feature card hover animation (GSAP micro)
+document.querySelectorAll('.feature-card').forEach(card => {
+  card.addEventListener('mouseenter', () => gsap.to(card, { y: -4, duration: 0.3, ease: 'power2.out' }));
+  card.addEventListener('mouseleave', () => gsap.to(card, { y: 0, duration: 0.4, ease: 'power2.inOut' }));
+});
+</script>
+
+<!-- Main JS -->
+<script src="/js/main.js"></script>
+
+</body>
+</html>

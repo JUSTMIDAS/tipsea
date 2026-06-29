@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TipSea Point — Admin Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/cdn@4.x/dist/index.global.js"></script>
+  <style>
+    :root {
+      --ocean-midnight: #0A1628;
+      --deep-water: #0d1d33;
+      --cyan: #00B4D8;
+      --gold: #F0C040;
+      --sand: #F8F4EE;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --error: #ef4444;
+    }
+    * { margin:0;padding:0;box-sizing:border-box; }
+    body { font-family:'DM Sans',sans-serif;background:var(--ocean-midnight);color:var(--sand);min-height:100vh; }
+    .font-mono { font-family:'Space Mono',monospace; }
+    .font-display { font-family:'Cormorant Garamond',serif; }
+
+    /* Login */
+    #loginScreen {
+      position:fixed;inset:0;z-index:1000;
+      background:var(--ocean-midnight);
+      display:flex;align-items:center;justify-content:center;
+    }
+    .login-box {
+      background:#0d1d33;
+      border:1px solid rgba(0,180,216,0.2);
+      padding:3rem;
+      width:100%;max-width:420px;
+    }
+    .form-input {
+      width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(0,180,216,0.2);
+      color:var(--sand);padding:0.75rem 1rem;font-family:'DM Sans',sans-serif;
+      font-size:0.9rem;outline:none;transition:border-color 0.3s;margin-bottom:1rem;
+    }
+    .form-input:focus { border-color:var(--cyan); }
+    .btn { padding:0.75rem 1.5rem;font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer;border:none;transition:all 0.3s; }
+    .btn-primary { background:var(--cyan);color:var(--ocean-midnight); }
+    .btn-primary:hover { background:#00d4f5; }
+    .btn-outline { background:transparent;border:1px solid rgba(0,180,216,0.3);color:var(--cyan); }
+    .btn-outline:hover { background:rgba(0,180,216,0.1); }
+    .btn-danger { background:rgba(239,68,68,0.15);color:#ef4444;border:1px solid rgba(239,68,68,0.3); }
+    .btn-success { background:rgba(34,197,94,0.15);color:#22c55e;border:1px solid rgba(34,197,94,0.3); }
+
+    /* Layout */
+    #app { display:none;min-height:100vh; }
+    .sidebar {
+      position:fixed;top:0;left:0;bottom:0;width:260px;
+      background:#060e1a;border-right:1px solid rgba(0,180,216,0.1);
+      display:flex;flex-direction:column;z-index:100;
+    }
+    .sidebar-logo { padding:1.75rem 1.5rem;border-bottom:1px solid rgba(0,180,216,0.1); }
+    .sidebar-logo h1 { font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:var(--sand); }
+    .sidebar-logo h1 span { color:var(--cyan); }
+    .sidebar-logo p { font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.2em;color:rgba(248,244,238,0.3);text-transform:uppercase;margin-top:0.25rem; }
+    .sidebar-nav { flex:1;padding:1.25rem 0;overflow-y:auto; }
+    .nav-item {
+      display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1.5rem;
+      cursor:pointer;transition:all 0.2s;border-left:2px solid transparent;
+      font-size:0.875rem;color:rgba(248,244,238,0.5);
+    }
+    .nav-item:hover { color:var(--sand);background:rgba(0,180,216,0.05); }
+    .nav-item.active { color:var(--cyan);border-left-color:var(--cyan);background:rgba(0,180,216,0.07); }
+    .nav-icon { font-size:1rem;width:1.25rem;text-align:center; }
+    .badge {
+      margin-left:auto;background:var(--cyan);color:var(--ocean-midnight);
+      font-family:'Space Mono',monospace;font-size:0.6rem;
+      padding:0.15rem 0.4rem;border-radius:0;font-weight:700;
+    }
+    .badge.warning { background:var(--warning);color:#000; }
+    .sidebar-footer { padding:1.5rem;border-top:1px solid rgba(0,180,216,0.1); }
+    .main { margin-left:260px;min-height:100vh;padding:2rem; }
+    .topbar { display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem; }
+    .page-title { font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:400; }
+    .topbar-right { display:flex;align-items:center;gap:1rem; }
+    .user-pill { display:flex;align-items:center;gap:0.5rem;font-family:'Space Mono',monospace;font-size:0.65rem;color:rgba(248,244,238,0.4); }
+
+    /* Stats */
+    .stats-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem; }
+    .stat-card {
+      background:#0d1d33;border:1px solid rgba(0,180,216,0.1);padding:1.5rem;
+      transition:border-color 0.3s;
+    }
+    .stat-card:hover { border-color:rgba(0,180,216,0.3); }
+    .stat-label { font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(248,244,238,0.35);margin-bottom:0.75rem; }
+    .stat-value { font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:500; }
+    .stat-value.cyan { color:var(--cyan); }
+    .stat-value.gold { color:var(--gold); }
+    .stat-value.success { color:var(--success); }
+    .stat-change { font-size:0.75rem;color:rgba(248,244,238,0.3);margin-top:0.25rem; }
+
+    /* Tables */
+    .table-wrap { background:#0d1d33;border:1px solid rgba(0,180,216,0.1);overflow:hidden;margin-bottom:1.5rem; }
+    .table-header { padding:1.25rem 1.5rem;border-bottom:1px solid rgba(0,180,216,0.1);display:flex;align-items:center;justify-content:space-between; }
+    .table-title { font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(248,244,238,0.5); }
+    table { width:100%;border-collapse:collapse; }
+    th { font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(248,244,238,0.3);padding:0.875rem 1.5rem;text-align:left;border-bottom:1px solid rgba(0,180,216,0.08); }
+    td { padding:1rem 1.5rem;font-size:0.875rem;color:rgba(248,244,238,0.7);border-bottom:1px solid rgba(0,180,216,0.05); }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:rgba(0,180,216,0.03); }
+
+    /* Status badges */
+    .status { display:inline-block;padding:0.2rem 0.6rem;font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase; }
+    .status.pending { background:rgba(245,158,11,0.15);color:var(--warning);border:1px solid rgba(245,158,11,0.3); }
+    .status.confirmed { background:rgba(34,197,94,0.15);color:var(--success);border:1px solid rgba(34,197,94,0.3); }
+    .status.cancelled { background:rgba(239,68,68,0.15);color:var(--error);border:1px solid rgba(239,68,68,0.3); }
+    .status.completed { background:rgba(0,180,216,0.15);color:var(--cyan);border:1px solid rgba(0,180,216,0.3); }
+    .status.new { background:rgba(240,192,64,0.15);color:var(--gold);border:1px solid rgba(240,192,64,0.3); }
+
+    /* Pages */
+    .page { display:none; }
+    .page.active { display:block; }
+
+    /* Calendar */
+    .calendar-grid { display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-top:1rem; }
+    .cal-day { padding:0.6rem;text-align:center;font-size:0.75rem;cursor:pointer;background:#0d1d33;border:1px solid rgba(0,180,216,0.05);transition:all 0.2s; }
+    .cal-day:hover { border-color:rgba(0,180,216,0.3); }
+    .cal-day.blocked { background:rgba(239,68,68,0.12);color:#ef4444;border-color:rgba(239,68,68,0.2); }
+    .cal-day.today { border-color:var(--cyan);color:var(--cyan); }
+    .cal-day.label { background:transparent;border:none;color:rgba(248,244,238,0.25);font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;cursor:default; }
+
+    /* Forms inline */
+    .inline-form { display:flex;gap:0.75rem;align-items:center; }
+    .inline-form .form-input { margin:0;flex:1; }
+
+    select.form-input { cursor:pointer; }
+    select.form-input option { background:var(--ocean-midnight); }
+
+    .error-msg { color:#ef4444;font-size:0.8rem;padding:0.5rem 0; }
+    .loader { display:inline-block;width:16px;height:16px;border:2px solid rgba(0,180,216,0.2);border-top-color:var(--cyan);border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+
+    .empty-state { text-align:center;padding:4rem;color:rgba(248,244,238,0.2);font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-style:italic; }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════ LOGIN ════════════════════ -->
+<div id="loginScreen">
+  <div class="login-box">
+    <h1 style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;margin-bottom:0.25rem;">TipSea <span style="color:var(--cyan)">Point</span></h1>
+    <p style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.2em;color:rgba(248,244,238,0.3);text-transform:uppercase;margin-bottom:2rem;">Admin Portal</p>
+    <label style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(248,244,238,0.35);display:block;margin-bottom:0.4rem;">Email</label>
+    <input type="email" id="loginEmail" class="form-input" placeholder="admin@tipseapoint.com" value="admin@tipseapoint.com" />
+    <label style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(248,244,238,0.35);display:block;margin-bottom:0.4rem;">Password</label>
+    <input type="password" id="loginPass" class="form-input" placeholder="••••••••" value="admin123" onkeydown="if(event.key==='Enter')login()" />
+    <p id="loginError" class="error-msg"></p>
+    <button class="btn btn-primary" style="width:100%;margin-top:0.5rem;" onclick="login()" id="loginBtn">Sign In</button>
+  </div>
+</div>
+
+<!-- ════════════════════ APP ════════════════════ -->
+<div id="app">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <h1>TipSea <span>Point</span></h1>
+      <p>Admin Dashboard</p>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-item active" onclick="showPage('dashboard')"><span class="nav-icon">📊</span> Dashboard</div>
+      <div class="nav-item" onclick="showPage('bookings')"><span class="nav-icon">📅</span> Bookings <span class="badge" id="pendingBadge">0</span></div>
+      <div class="nav-item" onclick="showPage('inquiries')"><span class="nav-icon">✉️</span> Inquiries <span class="badge warning" id="newBadge">0</span></div>
+      <div class="nav-item" onclick="showPage('reviews')"><span class="nav-icon">⭐</span> Reviews</div>
+      <div class="nav-item" onclick="showPage('calendar')"><span class="nav-icon">🗓️</span> Availability</div>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="btn btn-outline" style="width:100%;font-size:0.7rem;" onclick="logout()">Sign Out</button>
+      <p style="font-family:'Space Mono',monospace;font-size:0.55rem;color:rgba(248,244,238,0.2);margin-top:0.75rem;text-align:center;letter-spacing:0.1em;">HOPE TOWN · BAHAMAS</p>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <!-- ─── DASHBOARD ─── -->
+    <div class="page active" id="page-dashboard">
+      <div class="topbar">
+        <h2 class="page-title">Dashboard Overview</h2>
+        <div class="topbar-right">
+          <div class="user-pill">🌊 admin@tipseapoint.com</div>
+          <button class="btn btn-primary" style="font-size:0.7rem;padding:0.5rem 1rem;" onclick="loadDashboard()">↻ Refresh</button>
+        </div>
+      </div>
+
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat-card"><p class="stat-label">Total Bookings</p><p class="stat-value cyan" id="statTotal">—</p><p class="stat-change">All time</p></div>
+        <div class="stat-card"><p class="stat-label">Pending</p><p class="stat-value gold" id="statPending">—</p><p class="stat-change">Awaiting confirmation</p></div>
+        <div class="stat-card"><p class="stat-label">New Inquiries</p><p class="stat-value" id="statInquiries">—</p><p class="stat-change">Unread messages</p></div>
+        <div class="stat-card"><p class="stat-label">Total Revenue</p><p class="stat-value success" id="statRevenue">—</p><p class="stat-change">Confirmed + completed</p></div>
+      </div>
+
+      <div class="table-wrap">
+        <div class="table-header">
+          <p class="table-title">Recent Bookings</p>
+          <button class="btn btn-outline" style="font-size:0.65rem;padding:0.4rem 1rem;" onclick="showPage('bookings')">View All →</button>
+        </div>
+        <table>
+          <thead>
+            <tr><th>Guest</th><th>Check-In</th><th>Check-Out</th><th>Nights</th><th>Total</th><th>Status</th></tr>
+          </thead>
+          <tbody id="recentBookingsBody">
+            <tr><td colspan="6" class="empty-state" style="font-family:'DM Sans',sans-serif;font-size:0.875rem;padding:2rem;">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ─── BOOKINGS ─── -->
+    <div class="page" id="page-bookings">
+      <div class="topbar">
+        <h2 class="page-title">All Bookings</h2>
+        <div class="topbar-right">
+          <select id="bookingFilter" class="form-input" style="width:auto;margin:0;padding:0.5rem 0.875rem;font-size:0.8rem;" onchange="loadBookings()">
+            <option value="">All Statuses</option>
+            <option value="pending">Pending</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+          <button class="btn btn-primary" style="font-size:0.7rem;padding:0.5rem 1rem;" onclick="loadBookings()">↻ Refresh</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Code</th><th>Guest</th><th>Email</th><th>Check-In</th><th>Check-Out</th><th>Nights</th><th>Total</th><th>Status</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="bookingsBody">
+            <tr><td colspan="9" class="empty-state" style="font-family:'DM Sans',sans-serif;font-size:0.875rem;padding:2rem;">Loading bookings...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ─── INQUIRIES ─── -->
+    <div class="page" id="page-inquiries">
+      <div class="topbar">
+        <h2 class="page-title">Inquiries</h2>
+        <button class="btn btn-primary" style="font-size:0.7rem;padding:0.5rem 1rem;" onclick="loadInquiries()">↻ Refresh</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Name</th><th>Email</th><th>Phone</th><th>Preferred Stay</th><th>Message</th><th>Status</th><th>Date</th></tr>
+          </thead>
+          <tbody id="inquiriesBody">
+            <tr><td colspan="7" class="empty-state" style="font-family:'DM Sans',sans-serif;font-size:0.875rem;padding:2rem;">Loading inquiries...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ─── REVIEWS ─── -->
+    <div class="page" id="page-reviews">
+      <div class="topbar">
+        <h2 class="page-title">Reviews</h2>
+        <button class="btn btn-primary" style="font-size:0.7rem;padding:0.5rem 1rem;" onclick="loadReviews()">↻ Refresh</button>
+      </div>
+      <div id="reviewsList"></div>
+    </div>
+
+    <!-- ─── CALENDAR / AVAILABILITY ─── -->
+    <div class="page" id="page-calendar">
+      <div class="topbar">
+        <h2 class="page-title">Availability Calendar</h2>
+        <div class="topbar-right">
+          <button class="btn btn-outline" style="font-size:0.7rem;padding:0.5rem 1rem;" onclick="changeMonth(-1)">← Prev</button>
+          <span id="calMonthLabel" style="font-family:'Space Mono',monospace;font-size:0.75rem;color:rgba(248,244,238,0.6);min-width:140px;text-align:center;"></span>
+          <button class="btn btn-outline" style="font-size:0.7rem;padding:0.5rem 1rem;" onclick="changeMonth(1)">Next →</button>
+        </div>
+      </div>
+      <div style="background:#0d1d33;border:1px solid rgba(0,180,216,0.1);padding:1.5rem;margin-bottom:1.5rem;">
+        <div id="calendarGrid"></div>
+      </div>
+      <div style="background:#0d1d33;border:1px solid rgba(0,180,216,0.1);padding:1.5rem;">
+        <p style="font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(248,244,238,0.35);margin-bottom:1rem;">Block / Unblock Dates Manually</p>
+        <div class="inline-form" style="margin-bottom:1rem;">
+          <input type="date" id="blockDate" class="form-input" />
+          <select id="blockReason" class="form-input" style="max-width:160px;">
+            <option value="owner">Owner Use</option>
+            <option value="maintenance">Maintenance</option>
+            <option value="blocked">Other</option>
+          </select>
+          <button class="btn btn-danger" style="white-space:nowrap;" onclick="blockDate()">Block Date</button>
+          <button class="btn btn-success" style="white-space:nowrap;" onclick="unblockDate()">Unblock Date</button>
+        </div>
+        <p id="blockMsg" style="font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--cyan);min-height:1.2rem;"></p>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+let TOKEN = localStorage.getItem('tsp_admin_token') || '';
+let calendarDate = new Date();
+
+// ══════════════════════════════════
+//  AUTH
+// ══════════════════════════════════
+async function login() {
+  const btn = document.getElementById('loginBtn');
+  const email = document.getElementById('loginEmail').value;
+  const pass = document.getElementById('loginPass').value;
+  btn.innerHTML = '<span class="loader"></span>';
+  btn.disabled = true;
+
+  try {
+    const resp = await fetch('/api/admin/login', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ email, password: pass })
+    });
+    const data = await resp.json();
+    if (data.success) {
+      TOKEN = data.token;
+      localStorage.setItem('tsp_admin_token', TOKEN);
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      loadDashboard();
+    } else {
+      document.getElementById('loginError').textContent = 'Invalid credentials';
+      btn.innerHTML = 'Sign In'; btn.disabled = false;
+    }
+  } catch {
+    document.getElementById('loginError').textContent = 'Connection error';
+    btn.innerHTML = 'Sign In'; btn.disabled = false;
+  }
+}
+
+function logout() {
+  localStorage.removeItem('tsp_admin_token');
+  TOKEN = '';
+  location.reload();
+}
+
+// Check if already logged in
+if (TOKEN) {
+  fetch('/api/admin/stats', { headers:{ Authorization:'Bearer '+TOKEN } })
+    .then(r => r.json()).then(d => {
+      if (d.success) {
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('app').style.display = 'block';
+        loadDashboard();
+      }
+    }).catch(() => {});
+}
+
+// ══════════════════════════════════
+//  NAVIGATION
+// ══════════════════════════════════
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  const navItems = document.querySelectorAll('.nav-item');
+  const pages = ['dashboard','bookings','inquiries','reviews','calendar'];
+  navItems[pages.indexOf(name)].classList.add('active');
+  // Lazy load
+  if (name === 'bookings') loadBookings();
+  if (name === 'inquiries') loadInquiries();
+  if (name === 'reviews') loadReviews();
+  if (name === 'calendar') renderCalendar();
+}
+
+// ══════════════════════════════════
+//  DASHBOARD
+// ══════════════════════════════════
+async function loadDashboard() {
+  try {
+    const resp = await fetch('/api/admin/stats', { headers:{ Authorization:'Bearer '+TOKEN } });
+    const data = await resp.json();
+    if (!data.success) return;
+    const s = data.stats;
+    document.getElementById('statTotal').textContent = s.totalBookings;
+    document.getElementById('statPending').textContent = s.pendingBookings;
+    document.getElementById('statInquiries').textContent = s.newInquiries;
+    document.getElementById('statRevenue').textContent = '$' + (s.totalRevenue || 0).toLocaleString();
+    document.getElementById('pendingBadge').textContent = s.pendingBookings;
+    document.getElementById('newBadge').textContent = s.newInquiries;
+
+    const tbody = document.getElementById('recentBookingsBody');
+    if (!s.recentBookings.length) {
+      tbody.innerHTML = '<tr><td colspan="6" class="empty-state" style="padding:2rem;font-family:\'DM Sans\',sans-serif;font-size:0.875rem;color:rgba(248,244,238,0.2);">No bookings yet</td></tr>';
+      return;
+    }
+    tbody.innerHTML = s.recentBookings.map(b => `
+      <tr>
+        <td><span style="font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--cyan);">${b.guestName}</span></td>
+        <td>${fmtDate(b.checkIn)}</td>
+        <td>${fmtDate(b.checkOut)}</td>
+        <td>${b.totalNights || '—'}</td>
+        <td style="font-family:'Space Mono',monospace;color:var(--gold);">$${(b.totalPrice || 0).toLocaleString()}</td>
+        <td><span class="status ${b.status}">${b.status}</span></td>
+      </tr>
+    `).join('');
+  } catch(e) { console.error(e); }
+}
+
+// ══════════════════════════════════
+//  BOOKINGS
+// ══════════════════════════════════
+async function loadBookings() {
+  const status = document.getElementById('bookingFilter').value;
+  const tbody = document.getElementById('bookingsBody');
+  tbody.innerHTML = '<tr><td colspan="9" style="padding:2rem;text-align:center;"><span class="loader"></span></td></tr>';
+
+  try {
+    const resp = await fetch(`/api/admin/bookings?status=${status}`, { headers:{ Authorization:'Bearer '+TOKEN } });
+    const data = await resp.json();
+    if (!data.bookings.length) {
+      tbody.innerHTML = '<tr><td colspan="9" class="empty-state" style="padding:2rem;font-family:\'DM Sans\',sans-serif;font-size:0.875rem;color:rgba(248,244,238,0.2);">No bookings found</td></tr>';
+      return;
+    }
+    tbody.innerHTML = data.bookings.map(b => `
+      <tr>
+        <td><span style="font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--cyan);">${b.confirmationCode}</span></td>
+        <td>${b.guestName}</td>
+        <td style="font-size:0.8rem;">${b.guestEmail}</td>
+        <td>${fmtDate(b.checkIn)}</td>
+        <td>${fmtDate(b.checkOut)}</td>
+        <td>${b.totalNights || '—'}</td>
+        <td style="font-family:'Space Mono',monospace;color:var(--gold);">$${(b.totalPrice || 0).toLocaleString()}</td>
+        <td><span class="status ${b.status}">${b.status}</span></td>
+        <td>
+          <select onchange="updateBookingStatus('${b._id}', this.value)" style="background:rgba(255,255,255,0.04);border:1px solid rgba(0,180,216,0.2);color:var(--sand);padding:0.25rem 0.4rem;font-size:0.7rem;cursor:pointer;">
+            <option value="">Change...</option>
+            <option value="pending">Pending</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </td>
+      </tr>
+    `).join('');
+  } catch(e) { console.error(e); }
+}
+
+async function updateBookingStatus(id, status) {
+  if (!status) return;
+  await fetch(`/api/admin/bookings/${id}`, {
+    method:'PATCH', headers:{'Content-Type':'application/json', Authorization:'Bearer '+TOKEN},
+    body: JSON.stringify({ status })
+  });
+  loadBookings();
+}
+
+// ══════════════════════════════════
+//  INQUIRIES
+// ══════════════════════════════════
+async function loadInquiries() {
+  const tbody = document.getElementById('inquiriesBody');
+  tbody.innerHTML = '<tr><td colspan="7" style="padding:2rem;text-align:center;"><span class="loader"></span></td></tr>';
+  try {
+    const resp = await fetch('/api/admin/inquiries', { headers:{ Authorization:'Bearer '+TOKEN } });
+    const data = await resp.json();
+    if (!data.inquiries.length) {
+      tbody.innerHTML = '<tr><td colspan="7" style="padding:2rem;text-align:center;color:rgba(248,244,238,0.2);font-size:0.875rem;">No inquiries yet</td></tr>';
+      return;
+    }
+    tbody.innerHTML = data.inquiries.map(i => `
+      <tr>
+        <td>${i.name}</td>
+        <td style="font-size:0.8rem;"><a href="mailto:${i.email}" style="color:var(--cyan);">${i.email}</a></td>
+        <td style="font-size:0.8rem;">${i.phone || '—'}</td>
+        <td style="font-size:0.75rem;">${i.preferredCheckIn ? fmtDate(i.preferredCheckIn) + ' – ' + fmtDate(i.preferredCheckOut) : '—'}</td>
+        <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:0.8rem;">${i.message}</td>
+        <td><span class="status ${i.status}">${i.status}</span></td>
+        <td style="font-family:'Space Mono',monospace;font-size:0.65rem;color:rgba(248,244,238,0.35);">${fmtDate(i.createdAt)}</td>
+      </tr>
+    `).join('');
+  } catch(e) { console.error(e); }
+}
+
+// ══════════════════════════════════
+//  REVIEWS
+// ══════════════════════════════════
+async function loadReviews() {
+  const container = document.getElementById('reviewsList');
+  container.innerHTML = '<div style="padding:2rem;text-align:center;"><span class="loader"></span></div>';
+  try {
+    const resp = await fetch('/api/reviews', { headers:{ Authorization:'Bearer '+TOKEN } });
+    const data = await resp.json();
+    if (!data.reviews.length) {
+      container.innerHTML = '<div class="empty-state">No reviews yet</div>';
+      return;
+    }
+    container.innerHTML = data.reviews.map(r => `
+      <div style="background:#0d1d33;border:1px solid rgba(0,180,216,0.1);padding:1.5rem;margin-bottom:1rem;display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:start;">
+        <div>
+          <div style="display:flex;align-items:center;gap:1rem;margin-bottom:0.5rem;">
+            <span style="color:var(--gold);font-size:0.9rem;">${'★'.repeat(r.rating)}</span>
+            <span style="font-family:'Space Mono',monospace;font-size:0.65rem;color:rgba(248,244,238,0.35);">${fmtDate(r.createdAt)}</span>
+            ${r.approved ? '<span class="status confirmed">Approved</span>' : '<span class="status pending">Pending</span>'}
+            ${r.featured ? '<span class="status" style="background:rgba(240,192,64,0.1);color:var(--gold);border-color:rgba(240,192,64,0.3);">Featured</span>' : ''}
+          </div>
+          <p style="font-family:\'Cormorant Garamond\',serif;font-style:italic;font-size:1.05rem;color:rgba(248,244,238,0.8);margin-bottom:0.5rem;">"${r.content}"</p>
+          <p style="font-size:0.75rem;color:rgba(248,244,238,0.4);">${r.guestName} — ${r.guestLocation || 'Location not provided'}</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0.5rem;">
+          ${!r.approved ? `<button class="btn btn-success" style="font-size:0.65rem;padding:0.35rem 0.75rem;" onclick="updateReview('${r._id}',{approved:true})">Approve</button>` : ''}
+          <button class="btn btn-outline" style="font-size:0.65rem;padding:0.35rem 0.75rem;" onclick="updateReview('${r._id}',{featured:${!r.featured}})">
+            ${r.featured ? 'Unfeature' : 'Feature'}
+          </button>
+        </div>
+      </div>
+    `).join('');
+  } catch(e) { container.innerHTML = '<div class="empty-state">Error loading reviews</div>'; }
+}
+
+async function updateReview(id, update) {
+  await fetch(`/api/admin/reviews/${id}`, {
+    method:'PATCH', headers:{'Content-Type':'application/json', Authorization:'Bearer '+TOKEN},
+    body: JSON.stringify(update)
+  });
+  loadReviews();
+}
+
+// ══════════════════════════════════
+//  CALENDAR
+// ══════════════════════════════════
+async function renderCalendar() {
+  const y = calendarDate.getFullYear();
+  const m = calendarDate.getMonth() + 1;
+  document.getElementById('calMonthLabel').textContent =
+    calendarDate.toLocaleString('default', { month:'long', year:'numeric' });
+
+  const resp = await fetch(`/api/availability/calendar?year=${y}&month=${m}`);
+  const data = await resp.json();
+  const blocked = new Set((data.blockedDates || []).map(b => b.date));
+
+  const daysInMonth = new Date(y, m, 0).getDate();
+  const firstDay = new Date(y, m-1, 1).getDay();
+  const today = new Date().toISOString().split('T')[0];
+
+  let html = '<div class="calendar-grid">';
+  ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d => {
+    html += `<div class="cal-day label">${d}</div>`;
+  });
+  for (let i = 0; i < firstDay; i++) html += '<div class="cal-day" style="background:transparent;border-color:transparent;"></div>';
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateStr = `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const cls = blocked.has(dateStr) ? 'blocked' : dateStr === today ? 'today' : '';
+    html += `<div class="cal-day ${cls}" title="${dateStr}">${d}</div>`;
+  }
+  html += '</div>';
+  html += `<div style="display:flex;gap:1.5rem;margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(0,180,216,0.1);">
+    <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.75rem;color:rgba(248,244,238,0.4);">
+      <div style="width:12px;height:12px;background:rgba(239,68,68,0.3);border:1px solid rgba(239,68,68,0.4);"></div> Blocked
+    </div>
+    <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.75rem;color:rgba(248,244,238,0.4);">
+      <div style="width:12px;height:12px;border:1px solid var(--cyan);"></div> Today
+    </div>
+    <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.75rem;color:rgba(248,244,238,0.4);">
+      <div style="width:12px;height:12px;background:#0d1d33;border:1px solid rgba(0,180,216,0.1);"></div> Available
+    </div>
+  </div>`;
+  document.getElementById('calendarGrid').innerHTML = html;
+}
+
+function changeMonth(dir) {
+  calendarDate.setMonth(calendarDate.getMonth() + dir);
+  renderCalendar();
+}
+
+async function blockDate() {
+  const date = document.getElementById('blockDate').value;
+  const reason = document.getElementById('blockReason').value;
+  if (!date) return;
+  await fetch('/api/admin/block-dates', {
+    method:'POST', headers:{'Content-Type':'application/json', Authorization:'Bearer '+TOKEN},
+    body: JSON.stringify({ dates:[date], reason })
+  });
+  document.getElementById('blockMsg').textContent = '✓ ' + date + ' blocked as ' + reason;
+  renderCalendar();
+  setTimeout(() => { document.getElementById('blockMsg').textContent = ''; }, 3000);
+}
+
+async function unblockDate() {
+  const date = document.getElementById('blockDate').value;
+  if (!date) return;
+  await fetch('/api/admin/block-dates', {
+    method:'DELETE', headers:{'Content-Type':'application/json', Authorization:'Bearer '+TOKEN},
+    body: JSON.stringify({ dates:[date] })
+  });
+  document.getElementById('blockMsg').textContent = '✓ ' + date + ' unblocked';
+  renderCalendar();
+  setTimeout(() => { document.getElementById('blockMsg').textContent = ''; }, 3000);
+}
+
+// ══════════════════════════════════
+//  HELPERS
+// ══════════════════════════════════
+function fmtDate(d) {
+  if (!d) return '—';
+  return new Date(d).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+}
+</script>
+</body>
+</html>
